@@ -33,7 +33,6 @@ def get_diabetes_data(cedula_terminacion: int = 72) -> DiabetesDataset:
     df = pd.DataFrame(X, columns=diabetes.feature_names)
     df["target"] = y
 
-    # Drop specific and rename columns as required
     df = df.drop(['age', 'sex', 's1', 's2', 's3', 's4', 's6'], axis=1)
     df = df.rename(columns={
         'bmi': 'IMC',
@@ -44,7 +43,6 @@ def get_diabetes_data(cedula_terminacion: int = 72) -> DiabetesDataset:
     X_filtered = df[['IMC', 'Presion', 'Trigliceridos_log']].values
     y_filtered = df['target'].values
 
-    # Calculate Train/Test Split Ratio
     porcentaje = cedula_terminacion / 100.0
     if cedula_terminacion >= 50:
         train_size = porcentaje
@@ -53,12 +51,10 @@ def get_diabetes_data(cedula_terminacion: int = 72) -> DiabetesDataset:
         test_size = porcentaje
         train_size = 1.0 - test_size
         
-    # Train Test Split
     X_train, X_test, y_train, y_test = train_test_split(
         X_filtered, y_filtered, test_size=test_size, random_state=42
     )
 
-    # Standardization for Neural Network
     X_mean = X_train.mean(axis=0, keepdims=True)
     X_std  = X_train.std(axis=0, keepdims=True) + 1e-8
     X_train_std = (X_train - X_mean) / X_std

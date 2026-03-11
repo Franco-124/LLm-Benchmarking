@@ -8,7 +8,7 @@ from src.models.ensemble import run_bagging_ensemble
 from src.models.neural_net import run_neural_networks_benchmarking
 from src.utils import plot_comparisons, plot_fitness_evolution
 import uvicorn
-# Configuración de Logging estructurado
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -21,9 +21,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-class ModelExecutionError(Exception):
-    """Excepción custom para errores del dominio en la ejecución de los modelos."""
-    pass
 
 @app.get("/execute", response_model=Dict[str, Any])
 def execute_models() -> Dict[str, Any]:
@@ -35,11 +32,9 @@ def execute_models() -> Dict[str, Any]:
         logger.info("Cargando dataset y aplicando preprocesamiento...")
         dataset = get_diabetes_data(cedula_terminacion=72)
         
-        # Preparando matrices enteras para K-Fold
         X_full = dataset.df[['IMC', 'Presion', 'Trigliceridos_log']].values
         y_full = dataset.df['target'].values
         
-        # Estandarizacion para Keras
         X_mean = X_full.mean(axis=0, keepdims=True)
         X_std = X_full.std(axis=0, keepdims=True) + 1e-8
         X_scaled = (X_full - X_mean) / X_std
@@ -54,7 +49,7 @@ def execute_models() -> Dict[str, Any]:
         nn_results, nn_models = run_neural_networks_benchmarking(X_scaled, y_full, k_folds=5)
 
         logger.info("Generando visualizaciones en carpeta local 'plots/'...")
-        # 1. Graficar evolución del genético (último fold)
+
         plot_fitness_evolution(fitness_history)
 
         # 2. Graficar comparación (usamos arquitectura A como referencia de RNA)

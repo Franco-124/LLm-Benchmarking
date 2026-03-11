@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Dense, Input, Dropout
 from tensorflow.keras.optimizers import Adam, RMSprop
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import KFold
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 
 def build_architecture_a(input_dim: int) -> Sequential:
     """

@@ -20,7 +20,7 @@ def plot_fitness_evolution(mejores: List[float], output_dir: str = "plots") -> N
     save_path = os.path.join(output_dir, 'evolucion_fitness.png')
     plt.savefig(save_path, dpi=300)
     plt.close()
-    print(f"✅ Gráfico guardado en: {save_path}")
+
 
 def plot_comparisons(df: pd.DataFrame, 
                      mejor_ga: Dict[str, float], 
@@ -41,7 +41,6 @@ def plot_comparisons(df: pd.DataFrame,
     presion_mean = float(df['Presion'].mean())
     tri_mean     = float(df['Trigliceridos_log'].mean())
 
-    # Algoritmo Genético
     m1_ga, m2_ga, m3_ga, b_ga = mejor_ga['m1'], mejor_ga['m2'], mejor_ga['m3'], mejor_ga['b']
     
     y_ga = (
@@ -52,7 +51,6 @@ def plot_comparisons(df: pd.DataFrame,
     )
     y_ga = np.asarray(y_ga).ravel()
 
-    # Ensamblaje (Bagging)
     X_bag = np.column_stack([
         x_range,
         np.full_like(x_range, presion_mean),
@@ -61,7 +59,6 @@ def plot_comparisons(df: pd.DataFrame,
     y_bag = bagging_model.predict(X_bag)
     y_bag = np.asarray(y_bag).ravel()
 
-    # Red Neuronal (Keras MLP)
     x_nn_scaled = (x_range - X_mean[0, 0]) / X_std[0, 0]
     presion_scaled = (presion_mean - X_mean[0, 1]) / X_std[0, 1]
     tri_scaled = (tri_mean - X_mean[0, 2]) / X_std[0, 2]
@@ -74,7 +71,6 @@ def plot_comparisons(df: pd.DataFrame,
     
     y_nn = nn_model.predict(X_nn, verbose=0).ravel()
 
-    # Gráfico
     plt.figure(figsize=(10,6))
     plt.scatter(X_plot, Y_plot, color='gray', alpha=0.4, label='Datos Reales')
 
@@ -92,4 +88,3 @@ def plot_comparisons(df: pd.DataFrame,
     plt.savefig(save_path, dpi=300)
     plt.close()
     
-    print(f"✅ Gráfico guardado en: {save_path}")

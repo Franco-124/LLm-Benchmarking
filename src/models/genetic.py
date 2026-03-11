@@ -117,8 +117,7 @@ def run_genetic_algorithm(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> Tup
         X_train_kf, X_test_kf = X[train_index], X[test_index]
         y_train_kf, y_test_kf = y[train_index], y[test_index]
 
-        # Entrenando evolución
-        best_params, fitness_history = fit_ga(X_train_kf, y_train_kf, individuos=200, max_generaciones=20)
+        best_params, fitness_history = fit_ga(X_train_kf, y_train_kf, individuos=200, max_generaciones=50)
         
         # Test 
         y_pred = (best_params['m1'] * X_test_kf[:, 0] + 
