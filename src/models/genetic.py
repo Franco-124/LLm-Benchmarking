@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import KFold
-from typing import Tuple, List, Dict, Any
 
-def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_generaciones: int = 20) -> Tuple[Dict[str, float], List[float]]:
+
+def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_generaciones: int = 20) -> tuple[dict[str, float], list[float]]:
     X1_np = X_train[:, 0]
     X2_np = X_train[:, 1]
     X3_np = X_train[:, 2]
@@ -93,7 +93,7 @@ def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_
     return params, fitness_history
 
 
-def run_genetic_algorithm(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> Tuple[Dict[str, float], Dict[str, float], List[float]]:
+def run_genetic_algorithm(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> tuple[dict[str, float], dict[str, float], list[float]]:
     """
     Entrena y evalúa las predicciones generadas por los parámetros de un modelo Genético.
     Realiza validación por K-Fold y vectorización de métricas.

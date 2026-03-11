@@ -1,12 +1,12 @@
 import logging
-from typing import Dict, Any
+from typing import Any
 from fastapi import FastAPI, HTTPException
 
-from src.data import get_diabetes_data
+from src.utils.data import get_diabetes_data
 from src.models.genetic import run_genetic_algorithm
 from src.models.ensemble import run_bagging_ensemble
 from src.models.neural_net import run_neural_networks_benchmarking
-from src.utils import plot_comparisons, plot_fitness_evolution
+from src.utils.utils import plot_comparisons, plot_fitness_evolution
 import uvicorn
 
 logging.basicConfig(
@@ -22,8 +22,8 @@ app = FastAPI(
 )
 
 
-@app.get("/execute", response_model=Dict[str, Any])
-def execute_models() -> Dict[str, Any]:
+@app.get("/execute", response_model=dict[str, Any])
+def execute_models() -> dict[str, Any]:
     """
     Ejecuta el pipeline de datos, evalúa los tres modelos con validación cruzada.
     Retorna métricas de evaluación (MSE, RMSE, MAE, R2) en estructura JSON.

@@ -3,9 +3,9 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import BaggingRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import KFold
-from typing import Tuple, Dict
 
-def run_bagging_ensemble(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> Tuple[Dict[str, float], BaggingRegressor]:
+
+def run_bagging_ensemble(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> tuple[dict[str, float], BaggingRegressor]:
     """
     Trains and evaluates a BaggingRegressor with a DecisionTreeRegressor base estimator using K-Fold CV.
 

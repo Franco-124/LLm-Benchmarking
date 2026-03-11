@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Dense, Input, Dropout
 from tensorflow.keras.optimizers import Adam, RMSprop
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import KFold
-from typing import Dict, Any, Tuple
+
 
 def build_architecture_a(input_dim: int) -> Sequential:
     """
@@ -54,7 +54,7 @@ def build_architecture_c(input_dim: int) -> Sequential:
     model.compile(optimizer=Adam(learning_rate=0.005), loss='mse')
     return model
 
-def run_neural_networks_benchmarking(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> Tuple[Dict[str, Dict[str, float]], Dict[str, Sequential]]:
+def run_neural_networks_benchmarking(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> tuple[dict[str, dict[str, float]], dict[str, Sequential]]:
     """
     Trains and evaluates 3 different Keras MLP architectures using K-Fold Cross Validation.
 

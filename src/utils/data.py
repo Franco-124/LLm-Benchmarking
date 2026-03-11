@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Tuple
+
 import pandas as pd
 from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
