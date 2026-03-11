@@ -70,7 +70,6 @@ def run_neural_networks_benchmarking(X: np.ndarray, y: np.ndarray, k_folds: int 
     tf.random.set_seed(42)
     input_dim = X.shape[1]
     
-    # K-Fold definitor
     kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
     
     # Store all architectures results
@@ -80,13 +79,11 @@ def run_neural_networks_benchmarking(X: np.ndarray, y: np.ndarray, k_folds: int 
         "arquitectura_C": {"mse": [], "rmse": [], "mae": [], "r2": []}
     }
     
-    # Fold Iteration
     fold = 1
     for train_index, test_index in kf.split(X):
         X_train_kf, X_test_kf = X[train_index], X[test_index]
         y_train_kf, y_test_kf = y[train_index], y[test_index]
         
-        # We must rebuild models every fold so weights reset
         architectures = {
             "arquitectura_A": build_architecture_a(input_dim),
             "arquitectura_B": build_architecture_b(input_dim),
@@ -110,7 +107,6 @@ def run_neural_networks_benchmarking(X: np.ndarray, y: np.ndarray, k_folds: int 
             
         fold += 1
         
-    # Average the metrics
     final_results = {}
     for name, metrics in results.items():
         final_results[name] = {

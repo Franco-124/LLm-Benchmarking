@@ -11,11 +11,9 @@ def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_
     X3_np = X_train[:, 2]
     Y_np = y_train
 
-    # Semillas
     np.random.seed(42)
     random.seed(42)
 
-    # Inicialización
     poblacion = pd.DataFrame({
         'm1': np.random.uniform(-30,30,individuos),
         'm2': np.random.uniform(-30,30,individuos),
@@ -42,7 +40,6 @@ def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_
     fitness_history = [float(cantidad.iloc[0]['fitness'])]
     generacion = 0
 
-    # Evolucion
     while cantidad.iloc[0]['fitness'] > 50.0 and generacion < max_generaciones:
         generacion += 1
         nuevos = []
@@ -66,7 +63,6 @@ def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_
 
         todo = pd.concat([cantidad, pd.DataFrame(nuevos)], ignore_index=True)
 
-        # Fitness vectorizado combinado
         m1 = todo["m1"].values
         m2 = todo["m2"].values
         m3 = todo["m3"].values
@@ -80,7 +76,6 @@ def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_
         mse = np.mean((Y_np - y_pred)**2, axis=1)
         todo["fitness"] = mse**0.5
 
-        # Selección de los mejores
         cantidad = todo.sort_values('fitness', ascending=True).head(individuos).reset_index(drop=True)
         fitness_history.append(float(cantidad.iloc[0]['fitness']))
 
@@ -119,7 +114,6 @@ def run_genetic_algorithm(X: np.ndarray, y: np.ndarray, k_folds: int = 5) -> tup
 
         best_params, fitness_history = fit_ga(X_train_kf, y_train_kf, individuos=200, max_generaciones=50)
         
-        # Test 
         y_pred = (best_params['m1'] * X_test_kf[:, 0] + 
                   best_params['m2'] * X_test_kf[:, 1] + 
                   best_params['m3'] * X_test_kf[:, 2] + 

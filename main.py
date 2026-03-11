@@ -52,7 +52,6 @@ def execute_models() -> dict[str, Any]:
 
         plot_fitness_evolution(fitness_history)
 
-        # 2. Graficar comparación (usamos arquitectura A como referencia de RNA)
         plot_comparisons(
             df=dataset.df,
             mejor_ga=ga_params,
