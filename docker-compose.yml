@@ -1,0 +1,10 @@
+services:
+  api:
+    build: .
+    container_name: diabetes-benchmark-api
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TF_ENABLE_ONEDNN_OPTS=0
