@@ -86,6 +86,7 @@ def plot_comparisons(df: pd.DataFrame,
     plt.legend()
     plt.grid(True, alpha=0.3)
     
+    
     save_path = os.path.join(output_dir, 'comparacion_modelos.png')
     plt.savefig(save_path, dpi=300)
     plt.close()
