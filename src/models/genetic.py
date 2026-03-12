@@ -5,7 +5,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import KFold
 
 
-def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_generaciones: int = 20) -> tuple[dict[str, float], list[float]]:
+def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_generaciones: int = 200) -> tuple[dict[str, float], list[float]]:
     X1_np = X_train[:, 0]
     X2_np = X_train[:, 1]
     X3_np = X_train[:, 2]
