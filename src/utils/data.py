@@ -12,8 +12,6 @@ class DiabetesDataset:
     X_test: np.ndarray
     y_train: np.ndarray
     y_test: np.ndarray
-    X_train_std: np.ndarray
-    X_test_std: np.ndarray
 
 def get_diabetes_data(cedula_terminacion: int = 72) -> DiabetesDataset:
     """
@@ -55,17 +53,10 @@ def get_diabetes_data(cedula_terminacion: int = 72) -> DiabetesDataset:
         X_filtered, y_filtered, test_size=test_size, random_state=42
     )
 
-    X_mean = X_train.mean(axis=0, keepdims=True)
-    X_std  = X_train.std(axis=0, keepdims=True) + 1e-8
-    X_train_std = (X_train - X_mean) / X_std
-    X_test_std  = (X_test  - X_mean) / X_std
-
     return DiabetesDataset(
         df=df,
         X_train=X_train,
         X_test=X_test,
         y_train=y_train,
         y_test=y_test,
-        X_train_std=X_train_std,
-        X_test_std=X_test_std
     )

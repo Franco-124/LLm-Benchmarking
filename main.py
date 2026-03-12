@@ -32,24 +32,25 @@ def execute_models() -> dict[str, Any]:
     try:
         logger.info("Cargando dataset y aplicando preprocesamiento...")
         dataset = get_diabetes_data(cedula_terminacion=72)
-        
-        X_full = dataset.df[['IMC', 'Presion', 'Trigliceridos_log']].values
-        y_full = dataset.df['target'].values
-        
+
+        X_train, X_test = dataset.X_train, dataset.X_test
+        y_train, y_test = dataset.y_train, dataset.y_test
+
         scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X_full) 
-        
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_test_scaled  = scaler.transform(X_test)
+
         X_mean = scaler.mean_
-        X_std = scaler.scale_
+        X_std  = scaler.scale_
 
         logger.info("Ejecutando algoritmo genético optimizado (K-Fold 5)...")
-        ga_metrics, ga_params, fitness_history = run_genetic_algorithm(X_full, y_full, k_folds=5)
+        ga_metrics, ga_params, fitness_history = run_genetic_algorithm(X_train, y_train, k_folds=5)
 
         logger.info("Ejecutando ensamble bagging regressor (K-Fold 5)...")
-        bagging_metrics, bagging_model = run_bagging_ensemble(X_full, y_full, k_folds=5)
+        bagging_metrics, bagging_model = run_bagging_ensemble(X_train, y_train, k_folds=5)
 
         logger.info("Ejecutando arquitecturas de Red Neuronal (K-Fold 5)...")
-        nn_results, nn_models = run_neural_networks_benchmarking(X_scaled, y_full, k_folds=5)
+        nn_results, nn_models = run_neural_networks_benchmarking(X_train_scaled, y_train, k_folds=5)
 
         logger.info("Generando visualizaciones en carpeta local 'plots/'...")
 

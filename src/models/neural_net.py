@@ -72,7 +72,6 @@ def run_neural_networks_benchmarking(X: np.ndarray, y: np.ndarray, k_folds: int 
     
     kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
     
-    # Store all architectures results
     results: Dict[str, Dict[str, float]] = {
         "arquitectura_A": {"mse": [], "rmse": [], "mae": [], "r2": []},
         "arquitectura_B": {"mse": [], "rmse": [], "mae": [], "r2": []},
