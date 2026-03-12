@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from src.utils.data import get_diabetes_data
 from src.models.genetic import run_genetic_algorithm
 from src.models.ensemble import run_bagging_ensemble
+from sklearn.preprocessing import StandardScaler
 from src.models.neural_net import run_neural_networks_benchmarking
 from src.utils.utils import plot_comparisons, plot_fitness_evolution
 import uvicorn
@@ -35,9 +36,11 @@ def execute_models() -> dict[str, Any]:
         X_full = dataset.df[['IMC', 'Presion', 'Trigliceridos_log']].values
         y_full = dataset.df['target'].values
         
-        X_mean = X_full.mean(axis=0, keepdims=True)
-        X_std = X_full.std(axis=0, keepdims=True) + 1e-8
-        X_scaled = (X_full - X_mean) / X_std
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X_full) 
+        
+        X_mean = scaler.mean_
+        X_std = scaler.scale_
 
         logger.info("Ejecutando algoritmo genético optimizado (K-Fold 5)...")
         ga_metrics, ga_params, fitness_history = run_genetic_algorithm(X_full, y_full, k_folds=5)
@@ -91,4 +94,5 @@ def execute_models() -> dict[str, Any]:
         logger.error(f"Error critico comprobando el pipeline MLP: {str(exc)}")
         raise HTTPException(status_code=500, detail="Internal Server Error: Fallo inesperado al correr la API.")
 
-uvicorn.run(app, host="127.0.0.1", port=8000) if __name__ == "__main__" else None
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

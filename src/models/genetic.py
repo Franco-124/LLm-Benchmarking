@@ -22,7 +22,6 @@ def fit_ga(X_train: np.ndarray, y_train: np.ndarray, individuos: int = 200, max_
         'fitness': 0.0
     })
 
-    # Fitness inicial vectorizado en Numpy
     m1 = poblacion["m1"].values
     m2 = poblacion["m2"].values
     m3 = poblacion["m3"].values
