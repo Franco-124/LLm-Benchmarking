@@ -61,9 +61,12 @@ def plot_comparisons(df: pd.DataFrame,
     y_bag = bagging_model.predict(X_bag)
     y_bag = np.asarray(y_bag).ravel()
 
-    x_nn_scaled = (x_range - X_mean[0, 0]) / X_std[0, 0]
-    presion_scaled = (presion_mean - X_mean[0, 1]) / X_std[0, 1]
-    tri_scaled = (tri_mean - X_mean[0, 2]) / X_std[0, 2]
+    X_mean_flat = np.asarray(X_mean).ravel()
+    X_std_flat  = np.asarray(X_std).ravel()
+
+    x_nn_scaled    = (x_range      - X_mean_flat[0]) / X_std_flat[0]
+    presion_scaled = (presion_mean  - X_mean_flat[1]) / X_std_flat[1]
+    tri_scaled     = (tri_mean      - X_mean_flat[2]) / X_std_flat[2]
     
     X_nn = np.column_stack([
         x_nn_scaled,
@@ -86,7 +89,7 @@ def plot_comparisons(df: pd.DataFrame,
     plt.legend()
     plt.grid(True, alpha=0.3)
     
-    
+
     save_path = os.path.join(output_dir, 'comparacion_modelos.png')
     plt.savefig(save_path, dpi=300)
     plt.close()
